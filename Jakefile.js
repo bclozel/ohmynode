@@ -42,7 +42,6 @@ task('test', [], function () {
 
         process.chdir(__dirname);
 
-        console.log('Running integration tests.');
-        testRunner.run(['tests/integration']);
+        testRunner.run(['tests/unit','tests/integration']);
     }, 250);
 });
