@@ -16,10 +16,14 @@ module.exports.shorturlController = function(baseController, restMvc){
     },
 
     get : function(key, fn){
-        this.model.find({shortkey:key}, function(err, instance) {
-            fn(err, instance);
-        });
-        
+      this.model.find({shortkey:key}, function(err, list) {
+        if (list && list.length > 0) {  
+          fn(err, list[0]);
+        } else {
+          fn(err, null);
+        }
+      });
+      
     },
     
     remove : function(key, fn){
