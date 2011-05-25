@@ -57,6 +57,36 @@ module.exports['HTTP Method'] = TestFixture({
             test.done();
         });
     },
+   
+    'GET Should return a single ShortURL when calling /shorturls/{shortkey}.json' : function(test){
+        test.expect(3);
+
+        var request = this.localhost.request('GET', '/shorturls/' + newShortKey + '.json', {'Host': 'localhost', 'Accept': 'application/json'});
+
+        this.requestHelper(request, function(response){
+            var actualShortURL = JSON.parse(response.body);
+            var expectedShortURL = JSON.parse(createJSON);
+
+            test.equals(actualShortURL.url, expectedShortURL.url);
+            test.equals(actualShortURL.shortkey, newShortKey);
+
+            test.equals(response.statusCode, 200);
+            test.done();
+        });
+    },
+    
+    'GET Should get a Redirect when calling /shorturls/{shortkey}' : function(test){
+        test.expect(2);
+
+        var request = this.localhost.request('GET', '/shorturls/' + newShortKey, {'Host': 'localhost', 'Accept': 'application/json'});
+        var expectedShortURL = JSON.parse(createJSON);
+
+        this.requestHelper(request, function(response){
+            test.equals(response.statusCode, 302);
+            test.equals(response.headers["location"], expectedShortURL.url);
+            test.done();
+        });
+    },
     
     'DELETE Should delete a shorturl when calling /shorturls/{shortkey}' : function(test){
         test.expect(1);

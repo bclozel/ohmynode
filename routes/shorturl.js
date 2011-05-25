@@ -17,8 +17,8 @@ module.exports.shorturlRoutes = function(shorturlController, app, restMvc){
           }
         } else {
         
-          // redirect browser
-          response.render(controller.name, { collection: instance.toObject() } );
+          // redirect browser to real URL
+          response.redirect(instance.doc.url);
         }
       }
     });
